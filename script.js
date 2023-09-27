@@ -1,20 +1,26 @@
-function sendMessage() {
-    const messageInput = document.getElementById('messageInput');
-    const message = messageInput.value.trim();
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
 
-    if (message !== '') {
-        const messageContainer = document.getElementById('messageContainer');
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 
-        while (messageContainer.firstChild) {
-            messageContainer.removeChild(messageContainer.firstChild);
-        }
+app.use(express.static(__dirname));
 
-        const newMessage = document.createElement('div');
-        newMessage.classList.add('message');
-        newMessage.innerText = message;
+io.on('connection', (socket) => {
+    console.log('Novo usuário conectado');
 
-        messageContainer.appendChild(newMessage);
+    socket.on('message', (msg) => {
+        io.emit('message', msg);
+    });
 
-        messageInput.value = '';
-    }
-}
+    socket.on('disconnect', () => {
+        console.log('Usuário desconectado');
+    });
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+});
