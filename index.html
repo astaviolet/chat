@@ -18,23 +18,33 @@
 
         .game-container {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 800px; /* Ajuste conforme necessário */
+            height: 800px; /* Ajuste conforme necessário */
             border: 2px solid #fff;
+            overflow: hidden;
         }
 
         .player {
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 30px;
+            height: 30px;
             background-color: #3498db;
+            border: 2px solid #fff;
+            border-radius: 5px;
+        }
+
+        .mass {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #27ae60;
+            border-radius: 50%;
         }
 
         .start-button {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 10px;
+            left: 10px;
             padding: 10px 20px;
             font-size: 16px;
             background-color: #3498db;
@@ -61,18 +71,20 @@
 </head>
 <body>
     <div class="game-container" id="game-container">
-        <!-- Jogadores (inicialmente 1 jogador) -->
+        <!-- Jogadores (inicialmente 10 jogadores) -->
         <div class="player" id="player-1" style="left: 50px; top: 50px;"></div>
 
-        <!-- Joystick -->
-        <div class="joystick" id="joystick" style="left: 50%; top: 75%; transform: translateX(-50%);"></div>
+        <!-- Massas (inicialmente 50 massas) -->
+        <div class="mass" style="left: 100px; top: 100px;"></div>
+        <div class="mass" style="left: 200px; top: 200px;"></div>
+        <!-- Adicione mais massas conforme necessário -->
 
         <button class="start-button" id="start-button">Start</button>
     </div>
 
     <script>
         let gameStarted = false;
-        let playerSpeed = 5; // Ajuste conforme necessário
+        let playerSpeed = 5;
 
         document.getElementById('start-button').addEventListener('click', function() {
             if (!gameStarted) {
@@ -82,9 +94,46 @@
         });
 
         function startGame() {
-            // Adicione a lógica de início do jogo aqui
             alert('O jogo começou!');
+            createPlayers(9); // Cria 9 jogadores adicionais
+            createMasses(50); // Cria 50 massas
             handleJoystick();
+        }
+
+        function createPlayers(numPlayers) {
+            const container = document.getElementById('game-container');
+            const player1 = document.getElementById('player-1');
+
+            for (let i = 2; i <= numPlayers + 1; i++) {
+                const player = document.createElement('div');
+                player.className = 'player';
+                player.id = 'player-' + i;
+
+                const left = Math.random() * (container.offsetWidth - 30);
+                const top = Math.random() * (container.offsetHeight - 30);
+
+                player.style.left = left + 'px';
+                player.style.top = top + 'px';
+
+                container.appendChild(player);
+            }
+        }
+
+        function createMasses(numMasses) {
+            const container = document.getElementById('game-container');
+
+            for (let i = 1; i <= numMasses; i++) {
+                const mass = document.createElement('div');
+                mass.className = 'mass';
+
+                const left = Math.random() * (container.offsetWidth - 10);
+                const top = Math.random() * (container.offsetHeight - 10);
+
+                mass.style.left = left + 'px';
+                mass.style.top = top + 'px';
+
+                container.appendChild(mass);
+            }
         }
 
         function handleJoystick() {
