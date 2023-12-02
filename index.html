@@ -7,189 +7,37 @@
     <style>
         body {
             margin: 0;
-            padding: 0;
             display: flex;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            background-color: #000;
-            color: #fff;
+            align-items: center;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7); /* Fundo preto com opacidade baixa */
+            color: white;
         }
-
-        .game-container {
-            position: relative;
-            width: 80vw;
-            height: 80vw;
-            max-width: 800px;
-            max-height: 800px;
-            border: 2px solid #fff;
-            overflow: hidden;
-        }
-
-        .map {
+        #game-container {
+            text-align: center;
             position: absolute;
-            width: 100%; /* Ajuste conforme necessário */
-            height: 100%; /* Ajuste conforme necessário */
-            background-color: #000;
-            border: 2px solid #fff;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
-
-        .player {
-            position: absolute;
-            width: 5%;
-            height: 5%;
-            background-color: #3498db;
-            border: 2px solid #fff;
-            border-radius: 5px;
-        }
-
-        .mass {
-            position: absolute;
-            width: 1.5%;
-            height: 1.5%;
-            background-color: #27ae60;
-            border-radius: 50%;
-        }
-
-        .start-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
+        #start-button {
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #3498db;
-            color: #fff;
-            border: none;
             cursor: pointer;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        .joystick {
-            position: absolute;
-            width: 15%;
-            height: 15%;
-            background-color: #27ae60;
-            border-radius: 50%;
-            cursor: pointer;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        button:hover, .joystick:hover {
-            background-color: #2980b9;
         }
     </style>
 </head>
 <body>
-    <div class="game-container" id="game-container">
-        <div class="map" id="map"></div>
-
-        <!-- Jogadores (inicialmente 10 jogadores) -->
-        <div class="player" id="player-1" style="left: 50px; top: 50px;"></div>
-
-        <!-- Massas (inicialmente 50 massas) -->
-        <div class="mass" style="left: 100px; top: 100px;"></div>
-        <div class="mass" style="left: 200px; top: 200px;"></div>
-        <!-- Adicione mais massas conforme necessário -->
-
-        <button class="start-button" id="start-button">Start</button>
-        <div class="joystick" id="joystick"></div>
+    <div id="game-container">
+        <h1>Seu Jogo</h1>
+        <button id="start-button" onclick="startGame()">Start</button>
     </div>
 
     <script>
-        let gameStarted = false;
-        let playerSpeed = 5;
-
-        document.getElementById('start-button').addEventListener('click', function() {
-            if (gameStarted) {
-                resetGame();
-            } else {
-                startGame();
-            }
-        });
-
         function startGame() {
-            alert('O jogo começou!');
-            createPlayers(9); // Cria 9 jogadores adicionais
-            createMasses(50); // Cria 50 massas
-            handleJoystick();
-            gameStarted = true;
-        }
-
-        function resetGame() {
-            const players = document.querySelectorAll('.player');
-            players.forEach(player => player.remove());
-
-            const masses = document.querySelectorAll('.mass');
-            masses.forEach(mass => mass.remove());
-
-            gameStarted = false;
-        }
-
-        function createPlayers(numPlayers) {
-            const container = document.getElementById('map');
-            const map = document.getElementById('map');
-
-            for (let i = 2; i <= numPlayers + 1; i++) {
-                const player = document.createElement('div');
-                player.className = 'player';
-                player.id = 'player-' + i;
-
-                const left = Math.random() * (container.offsetWidth - 30);
-                const top = Math.random() * (container.offsetHeight - 30);
-
-                player.style.left = left + 'px';
-                player.style.top = top + 'px';
-
-                map.appendChild(player);
-            }
-        }
-
-        function createMasses(numMasses) {
-            const container = document.getElementById('map');
-            const map = document.getElementById('map');
-
-            for (let i = 1; i <= numMasses; i++) {
-                const mass = document.createElement('div');
-                mass.className = 'mass';
-
-                const left = Math.random() * (container.offsetWidth - 10);
-                const top = Math.random() * (container.offsetHeight - 10);
-
-                mass.style.left = left + 'px';
-                mass.style.top = top + 'px';
-
-                map.appendChild(mass);
-            }
-        }
-
-        function handleJoystick() {
-            const joystick = document.getElementById('joystick');
-            const player = document.getElementById('player-1');
-
-            joystick.addEventListener('mousedown', function(event) {
-                document.addEventListener('mousemove', movePlayer);
-
-                document.addEventListener('mouseup', function() {
-                    document.removeEventListener('mousemove', movePlayer);
-                });
-            });
-
-            function movePlayer(event) {
-                const containerRect = document.getElementById('map').getBoundingClientRect();
-                const playerRect = player.getBoundingClientRect();
-
-                const newX = event.clientX - containerRect.left - playerRect.width / 2;
-                const newY = event.clientY - containerRect.top - playerRect.height / 2;
-
-                if (newX >= 0 && newX <= containerRect.width - playerRect.width &&
-                    newY >= 0 && newY <= containerRect.height - playerRect.height) {
-                    player.style.left = newX + 'px';
-                    player.style.top = newY + 'px';
-                }
-            }
+            // Lógica para iniciar o jogo
+            alert('Jogo iniciado!');
         }
     </script>
 </body>
