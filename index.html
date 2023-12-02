@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Círculo com joystick</title>
 
   <style>
@@ -80,6 +81,14 @@
 
       circle.style.transform = `translate(${dx}px, ${dy}px)`
     });
+
+    stick.addEventListener("touchend", (event) => {
+      event.preventDefault();
+
+      x = 0;
+      y = 0;
+    });
   </script>
+
 </body>
 </html>
