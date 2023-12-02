@@ -38,8 +38,8 @@
 
     #joystick {
       position: absolute;
-      bottom: 20px;
-      right: 20px;
+      bottom: 50px;
+      right: 50px;
       width: 100px;
       height: 100px;
       background-color: #ccc;
@@ -61,10 +61,11 @@
 </head>
 <body>
   <div id="game-container">
+    <button id="start-button">Start</button>
+    <div id="player"></div>
     <div id="joystick">
       <div id="joystick-inner"></div>
     </div>
-    <div id="player"></div>
   </div>
   <script>
     let gameStarted = false;
@@ -83,42 +84,14 @@
 
     function startGame() {
       if (!gameStarted) {
+        document.getElementById("start-button").style.display = "none";
         gameStarted = true;
         setInterval(createEnemy, 1000);
         setInterval(updatePlayer, 20);
       }
     }
 
-    function moveJoystick(event) {
+    function moveJoystick() {
       if (gameStarted) {
-        joystick.x = event.clientX - window.innerWidth / 2;
-        joystick.y = event.clientY - window.innerHeight / 2;
-
-        const innerJoystick = document.getElementById("joystick-inner");
-        const innerJoystickX = Math.min(Math.max(joystick.x, -playerSize / 2), playerSize / 2);
-        const innerJoystickY = Math.min(Math.max(joystick.y, -playerSize / 2), playerSize / 2);
-
-        innerJoystick.style.left = innerJoystickX + "px";
-        innerJoystick.style.top = innerJoystickY + "px";
-      }
-    }
-
-    function updatePlayer() {
-      playerX += joystick.x * 0.1;
-      playerY += joystick.y * 0.1;
-
-      const x = Math.min(Math.max(playerX, 0), window.innerWidth - playerSize);
-      const y = Math.min(Math.max(playerY, 0), window.innerHeight - playerSize);
-
-      player.style.left = x + "px";
-      player.style.top = y + "px";
-    }
-
-    function getRandomPosition() {
-      const x = Math.random() * (window.innerWidth - playerSize);
-      const y = Math.random() * (window.innerHeight - playerSize);
-      return { x, y };
-    }
-
-    function createEnemy() {
-      if (gameStarted) {
+        joystick.x = (playerX - window.innerWidth / 2) / (playerSize / 2);
+        joystick.y = (playerY - window.innerHeight / 2) / (playerSize / 
