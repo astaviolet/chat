@@ -1,128 +1,78 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Arctic Monkeys Store Live Videos</title>
-  <style>
-    html {
-      font-family: sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arctic Monkeys Live Videos</title>
+    <style>
+        body {
+            background-color: #111111;
+            font-family: Arial, sans-serif;
+            color: #FFFFFF;
+        }
 
-    * {
-      box-sizing: border-box;
-    }
+        .header {
+            text-align: center;
+            padding: 20px;
+        }
 
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background-color: #222;
-    }
+        .videos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
 
-    #arcticmonkeysstorelivevideos {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
+        .video {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+            border-radius: 5px;
+        }
 
-    .header {
-      width: 100%;
-      height: 100px;
-      background-color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+        .video img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-    .header h1 {
-      font-size: 4em;
-      font-weight: bold;
-    }
+        .video .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .header h2 {
-      font-size: 2em;
-      margin-top: 1em;
-    }
-
-    .content {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .store {
-      width: 50%;
-      height: 100%;
-      background-color: #f0f0f0;
-    }
-
-    .store a {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 2em;
-      font-weight: bold;
-      color: #222;
-    }
-
-    .live-videos {
-      width: 50%;
-      height: 100%;
-      background-color: #f0f0f0;
-    }
-
-    .live-videos a {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 2em;
-      font-weight: bold;
-      color: #222;
-    }
-
-    .store i {
-      width: 50px;
-      height: 50px;
-      margin-top: 1em;
-      background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Shopping_cart_icon.svg/1200px-Shopping_cart_icon.svg.png);
-    }
-
-    .live-videos i {
-      width: 50px;
-      height: 50px;
-      margin-top: 1em;
-      background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Video_camera_icon.svg/1200px-Video_camera_icon.svg.png);
-    }
-  </style>
+        .video h3 {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-  <div id="arcticmonkeysstorelivevideos">
     <div class="header">
-      <h1>Arctic Monkeys</h1>
-      <h2>Store | Live Videos</h2>
+        <h1>Arctic Monkeys Live Videos</h1>
     </div>
-    <div class="content">
-      <div class="store">
-        <a href="#">
-          <i></i>
-          Store
-        </a>
-      </div>
-      <div class="live-videos">
-        <a href="#">
-          <i></i>
-          Live Videos
-        </a>
-      </div>
+    <div class="videos">
+        <div class="video">
+            <img src="your_video_thumbnail_here" alt="Video Thumbnail">
+            <div class="play-icon">
+                <i class="fas fa-play"></i>
+            </div>
+            <h3>Video Title</h3>
+        </div>
+        <!-- Repeat the above .video div for all your videos -->
     </div>
-  </div>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 </body>
 </html>
