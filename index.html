@@ -36,22 +36,10 @@
       border-radius: 50%;
     }
 
-    #start-button {
-      position: absolute;
-      background-color: #4caf50;
-      color: #fff;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      outline: none;
-    }
-
     #joystick {
       position: absolute;
-      bottom: 30px;
-      right: 30px;
+      bottom: 20px;
+      right: 20px;
       width: 100px;
       height: 100px;
       background-color: #ccc;
@@ -65,7 +53,7 @@
       transform: translate(-50%, -50%);
       width: 50px;
       height: 50px;
-      background-color: #000;
+      background-color: #444;
       border-radius: 50%;
     }
   </style>
@@ -73,11 +61,10 @@
 </head>
 <body>
   <div id="game-container">
-    <button id="start-button" onclick="startGame()">Start</button>
-    <div id="player"></div>
     <div id="joystick">
       <div id="joystick-inner"></div>
     </div>
+    <div id="player"></div>
   </div>
   <script>
     let gameStarted = false;
@@ -87,8 +74,8 @@
     let playerY = window.innerHeight / 2 - playerSize / 2;
 
     const joystick = {
-      x: playerX,
-      y: playerY
+      x: 0,
+      y: 0
     };
 
     document.addEventListener("mousemove", moveJoystick);
@@ -96,7 +83,6 @@
 
     function startGame() {
       if (!gameStarted) {
-        document.getElementById("start-button").style.display = "none";
         gameStarted = true;
         setInterval(createEnemy, 1000);
         setInterval(updatePlayer, 20);
@@ -105,19 +91,34 @@
 
     function moveJoystick(event) {
       if (gameStarted) {
-        const joystickX = event.clientX - document.getElementById("joystick").offsetLeft - document.getElementById("joystick-inner").offsetWidth / 2;
-        const joystickY = event.clientY - document.getElementById("joystick").offsetTop - document.getElementById("joystick-inner").offsetHeight / 2;
+        joystick.x = event.clientX - window.innerWidth / 2;
+        joystick.y = event.clientY - window.innerHeight / 2;
 
-        const distanceX = Math.abs(joystickX);
-        const distanceY = Math.abs(joystickY);
+        const innerJoystick = document.getElementById("joystick-inner");
+        const innerJoystickX = Math.min(Math.max(joystick.x, -playerSize / 2), playerSize / 2);
+        const innerJoystickY = Math.min(Math.max(joystick.y, -playerSize / 2), playerSize / 2);
 
-        if (distanceX > distanceY) {
-          joystick.x = joystickX;
-          joystick.y = joystickY > 0 ? playerY + joystickY / 5 : playerY - joystickY / 5;
-        } else {
-          joystick.x = joystickX > 0 ? playerX + joystickX / 5 : playerX - joystickX / 5;
-          joystick.y = joystickY;
-        }
+        innerJoystick.style.left = innerJoystickX + "px";
+        innerJoystick.style.top = innerJoystickY + "px";
+      }
+    }
 
-        document.getElementById("joystick-inner").style.left = joystickX + "px";
-        document.
+    function updatePlayer() {
+      playerX += joystick.x * 0.1;
+      playerY += joystick.y * 0.1;
+
+      const x = Math.min(Math.max(playerX, 0), window.innerWidth - playerSize);
+      const y = Math.min(Math.max(playerY, 0), window.innerHeight - playerSize);
+
+      player.style.left = x + "px";
+      player.style.top = y + "px";
+    }
+
+    function getRandomPosition() {
+      const x = Math.random() * (window.innerWidth - playerSize);
+      const y = Math.random() * (window.innerHeight - playerSize);
+      return { x, y };
+    }
+
+    function createEnemy() {
+      if (gameStarted) {
