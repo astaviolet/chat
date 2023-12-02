@@ -30,7 +30,11 @@
             background-color: #3498db;
         }
 
-        button {
+        .start-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             padding: 10px 20px;
             font-size: 16px;
             background-color: #3498db;
@@ -41,7 +45,16 @@
             outline: none;
         }
 
-        button:hover {
+        .joystick {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-color: #27ae60;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        button:hover, .joystick:hover {
             background-color: #2980b9;
         }
     </style>
@@ -51,11 +64,15 @@
         <!-- Jogadores (inicialmente 1 jogador) -->
         <div class="player" id="player-1" style="left: 50px; top: 50px;"></div>
 
-        <button id="start-button">Start</button>
+        <!-- Joystick -->
+        <div class="joystick" id="joystick" style="left: 50%; top: 75%; transform: translateX(-50%);"></div>
+
+        <button class="start-button" id="start-button">Start</button>
     </div>
 
     <script>
         let gameStarted = false;
+        let playerSpeed = 5; // Ajuste conforme necessário
 
         document.getElementById('start-button').addEventListener('click', function() {
             if (!gameStarted) {
@@ -67,22 +84,34 @@
         function startGame() {
             // Adicione a lógica de início do jogo aqui
             alert('O jogo começou!');
-
-            // Exemplo de função de vitória
-            setTimeout(() => {
-                declareWinner(1);
-            }, 5000);
+            handleJoystick();
         }
 
-        function declareWinner(player) {
-            alert('Jogador ' + player + ' venceu!');
-            resetGame();
-        }
+        function handleJoystick() {
+            const joystick = document.getElementById('joystick');
+            const player = document.getElementById('player-1');
 
-        function resetGame() {
-            // Adicione a lógica de reinício do jogo aqui
-            alert('O jogo será reiniciado.');
-            gameStarted = false;
+            joystick.addEventListener('mousedown', function(event) {
+                document.addEventListener('mousemove', movePlayer);
+
+                document.addEventListener('mouseup', function() {
+                    document.removeEventListener('mousemove', movePlayer);
+                });
+            });
+
+            function movePlayer(event) {
+                const containerRect = document.getElementById('game-container').getBoundingClientRect();
+                const playerRect = player.getBoundingClientRect();
+
+                const newX = event.clientX - containerRect.left - playerRect.width / 2;
+                const newY = event.clientY - containerRect.top - playerRect.height / 2;
+
+                if (newX >= 0 && newX <= containerRect.width - playerRect.width &&
+                    newY >= 0 && newY <= containerRect.height - playerRect.height) {
+                    player.style.left = newX + 'px';
+                    player.style.top = newY + 'px';
+                }
+            }
         }
     </script>
 </body>
