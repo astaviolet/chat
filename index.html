@@ -1,17 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat SimplesChat SimplesChat SimplesChat SimplesChat SimplesChat SimplesChat SimplesChat SimplesChat SimplesChat SimplesChat Simplesfffffff</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #game-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background-color: white;
+    }
+
+    #start-button {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 15px 30px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    #player-cube {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: #e74c3c; /* Cor aleatória, você pode alterar conforme necessário */
+      border-radius: 5px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
 </head>
 <body>
-    <div class="message-container" id="messageContainer"></div>
-    <input type="text" id="messageInput" placeholder="Digite sua mensagem">
-    <button onclick="sendMessage()">Enviar</button>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.js"></script>
-    <script src="script.js"></script>
+<div id="game-container">
+  <button id="start-button" onclick="startGame()">Start</button>
+  <div id="player-cube"></div>
+</div>
+
+<script>
+  function startGame() {
+    // Lógica para começar o jogo pode ser adicionada aqui
+    alert("Jogo iniciado!");
+  }
+</script>
+
 </body>
 </html>
