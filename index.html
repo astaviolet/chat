@@ -3,75 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seu Jogo</title>
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.7); /* Fundo preto com opacidade baixa */
-            color: white;
-            font-family: Arial, sans-serif; /* Use a fonte desejada */
-        }
-        #game-container {
-            text-align: center;
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        #start-button,
-        #joystick,
-        #movable-square {
-            margin-top: 20px; /* Espaço entre os elementos */
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        #movable-square {
-            position: relative;
-            width: 50px;
-            height: 50px;
-            background-color: red;
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <title>Simple Game</title>
 </head>
 <body>
     <div id="game-container">
-        <h1>Seu Jogo</h1>
-        <button id="start-button" onclick="startGame()">Start</button>
-        <div id="joystick" onmousedown="startDrag(event)" onmouseup="stopDrag()">Joystick</div>
-        <div id="movable-square"></div>
+        <div id="player"></div>
     </div>
-
-    <script>
-        let isDragging = false;
-
-        function startGame() {
-            // Lógica para iniciar o jogo
-            alert('Jogo iniciado!');
-        }
-
-        function startDrag(event) {
-            isDragging = true;
-            document.addEventListener('mousemove', drag);
-        }
-
-        function drag(event) {
-            if (isDragging) {
-                const movableSquare = document.getElementById('movable-square');
-                movableSquare.style.left = `${event.clientX - movableSquare.clientWidth / 2}px`;
-                movableSquare.style.top = `${event.clientY - movableSquare.clientHeight / 2}px`;
-            }
-        }
-
-        function stopDrag() {
-            isDragging = false;
-            document.removeEventListener('mousemove', drag);
-        }
-    </script>
+    <script src="game.js"></script>
 </body>
 </html>
