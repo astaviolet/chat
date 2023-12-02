@@ -18,10 +18,18 @@
 
         .game-container {
             position: relative;
-            width: 800px; /* Ajuste conforme necessário */
-            height: 800px; /* Ajuste conforme necessário */
+            width: 800px;
+            height: 800px;
             border: 2px solid #fff;
             overflow: hidden;
+        }
+
+        .map {
+            position: absolute;
+            width: 800px; /* Ajuste conforme necessário */
+            height: 800px; /* Ajuste conforme necessário */
+            background-color: #000;
+            border: 2px solid #fff;
         }
 
         .player {
@@ -62,6 +70,9 @@
             background-color: #27ae60;
             border-radius: 50%;
             cursor: pointer;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         button:hover, .joystick:hover {
@@ -71,6 +82,8 @@
 </head>
 <body>
     <div class="game-container" id="game-container">
+        <div class="map" id="map"></div>
+
         <!-- Jogadores (inicialmente 10 jogadores) -->
         <div class="player" id="player-1" style="left: 50px; top: 50px;"></div>
 
@@ -80,6 +93,7 @@
         <!-- Adicione mais massas conforme necessário -->
 
         <button class="start-button" id="start-button">Start</button>
+        <div class="joystick" id="joystick"></div>
     </div>
 
     <script>
@@ -87,9 +101,10 @@
         let playerSpeed = 5;
 
         document.getElementById('start-button').addEventListener('click', function() {
-            if (!gameStarted) {
+            if (gameStarted) {
+                resetGame();
+            } else {
                 startGame();
-                gameStarted = true;
             }
         });
 
@@ -98,11 +113,22 @@
             createPlayers(9); // Cria 9 jogadores adicionais
             createMasses(50); // Cria 50 massas
             handleJoystick();
+            gameStarted = true;
+        }
+
+        function resetGame() {
+            const players = document.querySelectorAll('.player');
+            players.forEach(player => player.remove());
+
+            const masses = document.querySelectorAll('.mass');
+            masses.forEach(mass => mass.remove());
+
+            gameStarted = false;
         }
 
         function createPlayers(numPlayers) {
             const container = document.getElementById('game-container');
-            const player1 = document.getElementById('player-1');
+            const map = document.getElementById('map');
 
             for (let i = 2; i <= numPlayers + 1; i++) {
                 const player = document.createElement('div');
@@ -115,12 +141,13 @@
                 player.style.left = left + 'px';
                 player.style.top = top + 'px';
 
-                container.appendChild(player);
+                map.appendChild(player);
             }
         }
 
         function createMasses(numMasses) {
             const container = document.getElementById('game-container');
+            const map = document.getElementById('map');
 
             for (let i = 1; i <= numMasses; i++) {
                 const mass = document.createElement('div');
@@ -132,7 +159,7 @@
                 mass.style.left = left + 'px';
                 mass.style.top = top + 'px';
 
-                container.appendChild(mass);
+                map.appendChild(mass);
             }
         }
 
