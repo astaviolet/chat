@@ -38,6 +38,9 @@
 
     #start-button {
       position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       background-color: #4caf50;
       color: #fff;
       padding: 10px 20px;
@@ -47,11 +50,20 @@
       border-radius: 5px;
       outline: none;
     }
+
+    #joystick {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background-color: #ccc;
+      padding: 10px;
+    }
   </style>
   <title>Glow.io</title>
 </head>
 <body>
   <div id="game-container">
+    <div id="joystick"></div>
     <button id="start-button" onclick="startGame()">Start</button>
     <div id="player"></div>
   </div>
@@ -79,8 +91,8 @@
 
     function moveJoystick(event) {
       if (gameStarted) {
-        joystick.x = event.clientX;
-        joystick.y = event.clientY;
+        joystick.x = event.clientX - event.offsetX;
+        joystick.y = event.clientY - event.offsetY;
       }
     }
 
