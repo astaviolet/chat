@@ -2,113 +2,85 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Círculo com joystick</title>
+
   <style>
     body {
       margin: 0;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000000;
     }
 
-    #game-container {
-      width: 100vw;
-      height: 100vh;
-      background-color: #000;
-      position: relative;
-    }
-
-    #player {
-      width: 30px;
-      height: 30px;
-      background-color: #00f;
-      position: absolute;
-      border-radius: 50%;
-    }
-
-    .enemy {
-      width: 20px;
-      height: 20px;
-      background-color: #f00;
-      position: absolute;
-      border-radius: 50%;
-    }
-
-    #joystick {
-      position: absolute;
-      bottom: 50px;
-      right: 50px;
-      width: 100px;
-      height: 100px;
-      background-color: #ccc;
-      border-radius: 50%;
-    }
-
-    #joystick-inner {
+    circle {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 50px;
-      height: 50px;
-      background-color: #444;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
+      background-color: #ffffff;
+    }
+
+    .joystick {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background-color: #ffffff;
+    }
+
+    .joystick .stick {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #000000;
     }
   </style>
-  <title>Glow.io</title>
 </head>
 <body>
-  <div id="game-container">
-    <button id="start-button">Start</button>
-    <div id="player"></div>
-    <div id="joystick">
-      <div id="joystick-inner"></div>
-    </div>
+
+  <circle id="circle"></circle>
+
+  <div class="joystick">
+    <div class="stick"></div>
   </div>
+
   <script>
-    let gameStarted = false;
-    const player = document.getElementById("player");
-    let playerSize = 30;
-    let playerX = window.innerWidth / 2 - playerSize / 2;
-    let playerY = window.innerHeight / 2 - playerSize / 2;
+    const circle = document.getElementById("circle");
+    const stick = document.querySelector(".joystick .stick");
 
-    const joystick = {
-      x: 0,
-      y: 0
-    };
+    const x = 0;
+    const y = 0;
 
-    document.addEventListener("mousemove", moveJoystick);
-    document.addEventListener("click", startGame);
+    stick.addEventListener("mousedown", (event) => {
+      event.preventDefault();
 
-    function startGame() {
-      if (!gameStarted) {
-        document.getElementById("start-button").style.display = "none";
-        gameStarted = true;
-        setInterval(createEnemy, 1000);
-        setInterval(updatePlayer, 20);
-      }
-    }
+      x = event.clientX - stick.offsetLeft;
+      y = event.clientY - stick.offsetTop;
+    });
 
-    function moveJoystick() {
-      if (gameStarted) {
-        const event = window.event;
-        joystick.x = event.clientX - window.innerWidth / 2;
-        joystick.y = event.clientY - window.innerHeight / 2;
-      }
-    }
+    stick.addEventListener("mousemove", (event) => {
+      event.preventDefault();
 
-    function updatePlayer() {
-      playerX += joystick.x * 0.1;
-      playerY += joystick.y * 0.1;
+      const newX = event.clientX - stick.offsetLeft;
+      const newY = event.clientY - stick.offsetTop;
 
-      const x = Math.min(Math.max(playerX, 0), window.innerWidth - playerSize);
-      const y = Math.min(Math.max(playerY, 0), window.innerHeight - playerSize);
+      const dx = newX - x;
+      const dy = newY - y;
 
-      player.style.left = x + "px";
-      player.style.top = y + "px";
-    }
+      circle.style.transform = `translate(${dx}px, ${dy}px)`
+    });
+  </script>
 
-    function getRandomPosition() {
-      const x = Math.random() * (window.innerWidth - playerSize);
+</body>
+</html>
