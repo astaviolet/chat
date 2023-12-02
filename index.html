@@ -1,78 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arctic Monkeys Live Videos</title>
-    <style>
-        body {
-            background-color: #111111;
-            font-family: Arial, sans-serif;
-            color: #FFFFFF;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
 
-        .header {
-            text-align: center;
-            padding: 20px;
-        }
+    #game-container {
+      width: 100vw;
+      height: 100vh;
+      background-color: #000;
+    }
 
-        .videos {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .video {
-            position: relative;
-            display: flex;
-            align-items: flex-end;
-            overflow: hidden;
-            border-radius: 5px;
-        }
-
-        .video img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .video .play-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .video h3 {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            margin: 0;
-        }
-    </style>
+    #player {
+      width: 30px;
+      height: 30px;
+      background-color: #00f;
+      position: absolute;
+      border-radius: 50%;
+    }
+  </style>
+  <title>Glow.io</title>
 </head>
 <body>
-    <div class="header">
-        <h1>Arctic Monkeys Live Videos</h1>
-    </div>
-    <div class="videos">
-        <div class="video">
-            <img src="your_video_thumbnail_here" alt="Video Thumbnail">
-            <div class="play-icon">
-                <i class="fas fa-play"></i>
-            </div>
-            <h3>Video Title</h3>
-        </div>
-        <!-- Repeat the above .video div for all your videos -->
-    </div>
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+  <div id="game-container">
+    <div id="player"></div>
+  </div>
+  <script>
+    const player = document.getElementById("player");
+    let playerSize = 30;
+
+    document.addEventListener("mousemove", movePlayer);
+
+    function movePlayer(event) {
+      const x = event.clientX;
+      const y = event.clientY;
+
+      player.style.left = x - playerSize / 2 + "px";
+      player.style.top = y - playerSize / 2 + "px";
+    }
+
+    function getRandomPosition() {
+      const x = Math.random() * (window.innerWidth - playerSize);
+      const y = Math.random() * (window.innerHeight - playerSize);
+      return { x, y };
+    }
+
+    function createEnemy() {
+      const enemy = document.createElement("div");
+      enemy.className = "enemy";
+      document.getElementById("game-container").appendChild(enemy);
+
+      const position = getRandomPosition();
+      enemy.style.left = position.x + "px";
+      enemy.style.top = position.y + "px";
+
+      enemy.addEventListener("click", () => {
+        enemy.remove();
+      });
+
+      setTimeout(() => {
+        enemy.remove();
+      }, 3000);
+    }
+
+    setInterval(createEnemy, 1000);
+  </script>
 </body>
 </html>
