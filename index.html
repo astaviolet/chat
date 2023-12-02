@@ -62,18 +62,18 @@
     const x = 0;
     const y = 0;
 
-    stick.addEventListener("mousedown", (event) => {
+    stick.addEventListener("touchstart", (event) => {
       event.preventDefault();
 
-      x = event.clientX - stick.offsetLeft;
-      y = event.clientY - stick.offsetTop;
+      x = event.touches[0].clientX - stick.offsetLeft;
+      y = event.touches[0].clientY - stick.offsetTop;
     });
 
-    stick.addEventListener("mousemove", (event) => {
+    stick.addEventListener("touchmove", (event) => {
       event.preventDefault();
 
-      const newX = event.clientX - stick.offsetLeft;
-      const newY = event.clientY - stick.offsetTop;
+      const newX = event.touches[0].clientX - stick.offsetLeft;
+      const newY = event.touches[0].clientY - stick.offsetTop;
 
       const dx = newX - x;
       const dy = newY - y;
@@ -81,6 +81,5 @@
       circle.style.transform = `translate(${dx}px, ${dy}px)`
     });
   </script>
-
 </body>
 </html>
