@@ -17,7 +17,17 @@
         }
 
         .game-container {
-            text-align: center;
+            position: relative;
+            width: 400px;
+            height: 400px;
+            border: 2px solid #fff;
+        }
+
+        .player {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #3498db;
         }
 
         button {
@@ -37,15 +47,43 @@
     </style>
 </head>
 <body>
-    <div class="game-container">
+    <div class="game-container" id="game-container">
+        <!-- Jogadores (inicialmente 1 jogador) -->
+        <div class="player" id="player-1" style="left: 50px; top: 50px;"></div>
+
         <button id="start-button">Start</button>
     </div>
 
     <script>
+        let gameStarted = false;
+
         document.getElementById('start-button').addEventListener('click', function() {
+            if (!gameStarted) {
+                startGame();
+                gameStarted = true;
+            }
+        });
+
+        function startGame() {
             // Adicione a lógica de início do jogo aqui
             alert('O jogo começou!');
-        });
+
+            // Exemplo de função de vitória
+            setTimeout(() => {
+                declareWinner(1);
+            }, 5000);
+        }
+
+        function declareWinner(player) {
+            alert('Jogador ' + player + ' venceu!');
+            resetGame();
+        }
+
+        function resetGame() {
+            // Adicione a lógica de reinício do jogo aqui
+            alert('O jogo será reiniciado.');
+            gameStarted = false;
+        }
     </script>
 </body>
 </html>
