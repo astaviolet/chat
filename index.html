@@ -38,8 +38,8 @@
 
     #joystick {
       position: absolute;
-      bottom: 50px;
-      right: 50px;
+      bottom: 20px;
+      right: 20px;
       width: 100px;
       height: 100px;
       background-color: #ccc;
@@ -53,45 +53,3 @@
       transform: translate(-50%, -50%);
       width: 50px;
       height: 50px;
-      background-color: #444;
-      border-radius: 50%;
-    }
-  </style>
-  <title>Glow.io</title>
-</head>
-<body>
-  <div id="game-container">
-    <button id="start-button">Start</button>
-    <div id="player"></div>
-    <div id="joystick">
-      <div id="joystick-inner"></div>
-    </div>
-  </div>
-  <script>
-    let gameStarted = false;
-    const player = document.getElementById("player");
-    let playerSize = 30;
-    let playerX = window.innerWidth / 2 - playerSize / 2;
-    let playerY = window.innerHeight / 2 - playerSize / 2;
-
-    const joystick = {
-      x: 0,
-      y: 0
-    };
-
-    document.addEventListener("mousemove", moveJoystick);
-    document.addEventListener("click", startGame);
-
-    function startGame() {
-      if (!gameStarted) {
-        document.getElementById("start-button").style.display = "none";
-        gameStarted = true;
-        setInterval(createEnemy, 1000);
-        setInterval(updatePlayer, 20);
-      }
-    }
-
-    function moveJoystick() {
-      if (gameStarted) {
-        joystick.x = (playerX - window.innerWidth / 2) / (playerSize / 2);
-        joystick.y = (playerY - window.innerHeight / 2) / (playerSize / 
