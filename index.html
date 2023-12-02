@@ -7,12 +7,17 @@
     body {
       margin: 0;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
 
     #game-container {
       width: 100vw;
       height: 100vh;
       background-color: #000;
+      position: relative;
     }
 
     #player {
@@ -22,25 +27,69 @@
       position: absolute;
       border-radius: 50%;
     }
+
+    .enemy {
+      width: 20px;
+      height: 20px;
+      background-color: #f00;
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    #start-button {
+      position: absolute;
+      background-color: #4caf50;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
   </style>
   <title>Glow.io</title>
 </head>
 <body>
   <div id="game-container">
+    <button id="start-button" onclick="startGame()">Start</button>
     <div id="player"></div>
   </div>
   <script>
+    let gameStarted = false;
     const player = document.getElementById("player");
     let playerSize = 30;
 
-    document.addEventListener("mousemove", movePlayer);
+    const joystick = {
+      x: 0,
+      y: 0
+    };
 
-    function movePlayer(event) {
-      const x = event.clientX;
-      const y = event.clientY;
+    document.addEventListener("mousemove", moveJoystick);
+    document.addEventListener("click", startGame);
 
-      player.style.left = x - playerSize / 2 + "px";
-      player.style.top = y - playerSize / 2 + "px";
+    function startGame() {
+      if (!gameStarted) {
+        document.getElementById("start-button").style.display = "none";
+        gameStarted = true;
+        setInterval(createEnemy, 1000);
+        setInterval(updatePlayer, 20);
+      }
+    }
+
+    function moveJoystick(event) {
+      if (gameStarted) {
+        joystick.x = event.clientX;
+        joystick.y = event.clientY;
+      }
+    }
+
+    function updatePlayer() {
+      const x = joystick.x - playerSize / 2;
+      const y = joystick.y - playerSize / 2;
+
+      player.style.left = x + "px";
+      player.style.top = y + "px";
     }
 
     function getRandomPosition() {
@@ -50,24 +99,27 @@
     }
 
     function createEnemy() {
-      const enemy = document.createElement("div");
-      enemy.className = "enemy";
-      document.getElementById("game-container").appendChild(enemy);
+      if (gameStarted) {
+        const enemy = document.createElement("div");
+        enemy.className = "enemy";
+        document.getElementById("game-container").appendChild(enemy);
 
-      const position = getRandomPosition();
-      enemy.style.left = position.x + "px";
-      enemy.style.top = position.y + "px";
+        const position = getRandomPosition();
+        enemy.style.left = position.x + "px";
+        enemy.style.top = position.y + "px";
 
-      enemy.addEventListener("click", () => {
-        enemy.remove();
-      });
+        enemy.addEventListener("click", () => {
+          playerSize += 5;
+          player.style.width = playerSize + "px";
+          player.style.height = playerSize + "px";
+          enemy.remove();
+        });
 
-      setTimeout(() => {
-        enemy.remove();
-      }, 3000);
+        setTimeout(() => {
+          enemy.remove();
+        }, 3000);
+      }
     }
-
-    setInterval(createEnemy, 1000);
   </script>
 </body>
 </html>
