@@ -72,13 +72,12 @@
       position: relative;
     }
 
-    #screen-circle {
+    #screen-square {
       width: 300px;
-      height: 500px;
+      height: 300px;
       background-color: #eee;
-      border-radius: 50%;
       position: absolute;
-      top: 50%;
+      top: 70%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
@@ -106,7 +105,7 @@
   <button id="start-btn" onclick="runCode()">Start</button>
 
   <div id="output-container">
-    <div id="screen-circle"></div>
+    <div id="screen-square"></div>
   </div>
 
   <script>
@@ -139,9 +138,4 @@
 
     window.addEventListener('resize', function() {
       const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-      const codeTabs = document.querySelectorAll('.code-tab');
-      codeTabs.forEach(tab => tab.style.height = `${windowHeight - 250}px`);
-    });
-  </script>
-</body>
-</html>
+      const codeTabs = docu
