@@ -13,47 +13,19 @@
             padding: 0;
         }
 
-        #tabs {
-            display: flex;
-            justify-content: space-around;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-        }
-
-        .tab {
-            margin: 0 10px;
-            cursor: pointer;
-            padding: 8px;
+        #code-container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
             border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .tab:hover {
-            background-color: #555;
-        }
-
-        .code-tab {
-            display: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         textarea {
             width: 100%;
             box-sizing: border-box;
-        }
-
-        #output-container {
-            margin-top: 20px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-        }
-
-        #css-tab,
-        #html-tab,
-        #js-tab {
-            float: left;
-            width: calc(33.33% - 20px);
+            margin-bottom: 10px;
         }
 
         #start-btn {
@@ -71,10 +43,6 @@
 
         #start-btn:hover {
             background-color: #45a049;
-        }
-
-        #output-container {
-            clear: both;
         }
 
         #device-screen {
@@ -96,41 +64,21 @@
 </head>
 
 <body>
-    <div id="tabs">
-        <div class="tab" onclick="openTab('css-tab')">CSS</div>
-        <div class="tab" onclick="openTab('html-tab')">HTML</div>
-        <div class="tab" onclick="openTab('js-tab')">JavaScript</div>
-    </div>
+    <div id="code-container">
+        <textarea id="css-code" rows="4" placeholder="CSS Code"></textarea>
+        <textarea id="html-code" rows="4" placeholder="HTML Code"></textarea>
+        <textarea id="js-code" rows="4" placeholder="JavaScript Code"></textarea>
 
-    <div id="css-tab" class="code-tab">
-        <textarea id="css-code" rows="4" cols="50"></textarea>
-    </div>
+        <button id="start-btn" onclick="runCode()">Start</button>
 
-    <div id="html-tab" class="code-tab">
-        <textarea id="html-code" rows="4" cols="50"></textarea>
-    </div>
-
-    <div id="js-tab" class="code-tab">
-        <textarea id="js-code" rows="4" cols="50"></textarea>
-    </div>
-
-    <button id="start-btn" onclick="runCode()">Start</button>
-
-    <div id="device-screen">
-        <div id="content"></div>
+        <div id="device-screen">
+            <div id="content"></div>
+        </div>
     </div>
 
     <div id="output-container"></div>
 
     <script>
-        function openTab(tabId) {
-            const tabs = document.querySelectorAll('.code-tab');
-            tabs.forEach(tab => tab.style.display = 'none');
-
-            const selectedTab = document.getElementById(tabId);
-            selectedTab.style.display = 'block';
-        }
-
         function runCode() {
             const cssCode = document.getElementById('css-code').value;
             const htmlCode = document.getElementById('html-code').value;
@@ -152,8 +100,7 @@
 
         window.addEventListener('resize', function () {
             const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-            const codeTabs = document.querySelectorAll('.code-tab');
-            codeTabs.forEach(tab => tab.style.height = `${windowHeight - 250}px`);
+            document.getElementById('device-screen').style.height = `${windowHeight - 250}px`;
         });
     </script>
 </body>
