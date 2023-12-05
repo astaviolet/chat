@@ -107,15 +107,21 @@
       outputContainer.innerHTML = '';
 
       const styleTag = document.createElement('style');
-      styleTag.innerHTML = cssCode;
+      styleTag.textContent = cssCode;
       document.head.appendChild(styleTag);
 
       const scriptTag = document.createElement('script');
-      scriptTag.innerHTML = jsCode;
+      scriptTag.textContent = jsCode;
       document.body.appendChild(scriptTag);
 
       outputContainer.innerHTML = htmlCode;
     }
+
+    window.addEventListener('resize', function() {
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+      const codeTabs = document.querySelectorAll('.code-tab');
+      codeTabs.forEach(tab => tab.style.height = `${windowHeight - 250}px`);
+    });
   </script>
 </body>
 </html>
