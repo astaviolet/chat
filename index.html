@@ -2,51 +2,120 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Círculo com joystick</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Code Tester</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    #tabs {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+      background-color: #333;
+      color: white;
+    }
+
+    .tab {
+      margin: 0 10px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .tab:hover {
+      background-color: #555;
+    }
+
+    .code-tab {
+      display: none;
+    }
+
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #start-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    #start-btn:hover {
+      background-color: #45a049;
+    }
+
+    #output-container {
+      margin-top: 20px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
-
-  <circle id="circle"></circle>
-
-  <div class="joystick">
-    <div class="stick"></div>
+  <div id="tabs">
+    <div class="tab" onclick="openTab('css-tab')">CSS</div>
+    <div class="tab" onclick="openTab('html-tab')">HTML</div>
+    <div class="tab" onclick="openTab('js-tab')">JavaScript</div>
   </div>
 
+  <div id="css-tab" class="code-tab">
+    <textarea id="css-code" rows="10" cols="50"></textarea>
+  </div>
+
+  <div id="html-tab" class="code-tab">
+    <textarea id="html-code" rows="10" cols="50"></textarea>
+  </div>
+
+  <div id="js-tab" class="code-tab">
+    <textarea id="js-code" rows="10" cols="50"></textarea>
+  </div>
+
+  <button id="start-btn" onclick="runCode()">Start</button>
+
+  <div id="output-container"></div>
+
   <script>
-    const circle = document.getElementById("circle");
-    const stick = document.querySelector(".joystick .stick");
+    function openTab(tabId) {
+      const tabs = document.querySelectorAll('.code-tab');
+      tabs.forEach(tab => tab.style.display = 'none');
 
-    const x = 0;
-    const y = 0;
+      const selectedTab = document.getElementById(tabId);
+      selectedTab.style.display = 'block';
+    }
 
-    stick.addEventListener("touchstart", (event) => {
-      event.preventDefault();
+    function runCode() {
+      const cssCode = document.getElementById('css-code').value;
+      const htmlCode = document.getElementById('html-code').value;
+      const jsCode = document.getElementById('js-code').value;
 
-      x = event.touches[0].clientX - stick.offsetLeft;
-      y = event.touches[0].clientY - stick.offsetTop;
-    });
+      const outputContainer = document.getElementById('output-container');
+      outputContainer.innerHTML = '';
 
-    stick.addEventListener("touchmove", (event) => {
-      event.preventDefault();
+      const styleTag = document.createElement('style');
+      styleTag.innerHTML = cssCode;
+      document.head.appendChild(styleTag);
 
-      const newX = event.touches[0].clientX - stick.offsetLeft;
-      const newY = event.touches[0].clientY - stick.offsetTop;
+      const scriptTag = document.createElement('script');
+      scriptTag.innerHTML = jsCode;
+      document.body.appendChild(scriptTag);
 
-      const dx = newX - x;
-      const dy = newY - y;
-
-      circle.style.transform = `translate(${dx}px, ${dy}px)`
-    });
-
-    stick.addEventListener("touchend", (event) => {
-      event.preventDefault();
-
-      x = 0;
-      y = 0;
-    });
+      outputContainer.innerHTML = htmlCode;
+    }
   </script>
-
 </body>
 </html>
