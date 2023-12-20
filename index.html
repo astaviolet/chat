@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=2400, height=1080, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Real-time HTML Editor</title>
   <style>
     body {
@@ -14,7 +14,7 @@
 
     #editor,
     #output {
-      flex: 1;
+      flex: 2; /* Increased size vertically */
       border: none;
       resize: none;
     }
@@ -32,7 +32,7 @@
       overflow-y: auto;
     }
 
-    @media screen and (max-width: 2400px) {
+    @media screen and (max-width: 600px) {
       #editor {
         font-size: 14px; /* Adjust font size for smaller screens */
       }
@@ -40,8 +40,8 @@
   </style>
 </head>
 <body>
-  <textarea id="editor" oninput="updateOutput()">&lt;h1 id="title"&gt;Hello, World!&lt;/h1&gt;</textarea>
-  <iframe id="output" onclick="handleElementClick(event)"></iframe>
+  <textarea id="editor" oninput="updateOutput()">&lt;h1&gt;Hello, World!&lt;/h1&gt;</textarea>
+  <iframe id="output"></iframe>
 
   <script>
     function updateOutput() {
@@ -50,31 +50,6 @@
       outputFrame.open();
       outputFrame.write(editorContent);
       outputFrame.close();
-    }
-
-    function handleElementClick(event) {
-      const clickedElement = event.target;
-
-      if (confirm("Do you want to remove or rename this element?")) {
-        const removeElement = confirm("Do you want to remove this element?");
-        if (removeElement) {
-          clickedElement.remove();
-        } else {
-          const newName = prompt("Enter the new name:");
-          if (newName !== null) {
-            clickedElement.textContent = newName;
-            const idAttribute = clickedElement.getAttribute("id");
-            if (idAttribute) {
-              const editorContent = document.getElementById('editor');
-              editorContent.value = editorContent.value.replace(
-                new RegExp(idAttribute, 'g'),
-                newName
-              );
-              updateOutput();
-            }
-          }
-        }
-      }
     }
   </script>
 </body>
