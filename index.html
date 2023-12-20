@@ -79,9 +79,8 @@
 
     function removeElement() {
       const outputFrame = document.getElementById('output').contentDocument;
-      const selectedElement = outputFrame.getSelection().toString();
-      const editor = document.getElementById('editor');
-      editor.value = editor.value.replace(selectedElement, '');
+      const selectedElement = outputFrame.getSelection();
+      selectedElement.deleteFromDocument();
       updateOutput();
     }
 
