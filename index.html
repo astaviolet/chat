@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,7 @@
 
     #editor,
     #output {
-      flex: 2; /* Increased size vertically */
+      flex: 2;
       border: none;
       resize: none;
     }
@@ -30,24 +31,30 @@
       padding: 10px;
       box-sizing: border-box;
       overflow-y: auto;
-      position: relative;
     }
 
-    .simulated-screen {
-      position: absolute;
-      cursor: pointer;
+    #buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 10px;
     }
 
     @media screen and (max-width: 600px) {
       #editor {
-        font-size: 14px; /* Adjust font size for smaller screens */
+        font-size: 14px;
       }
     }
   </style>
 </head>
+
 <body>
-  <textarea id="editor" oninput="updateOutput()">&lt;h1 id="title"&gt;Hello, World!&lt;/h1&gt;</textarea>
-  <iframe id="output"></iframe>
+  <div id="buttons">
+    <button onclick="renameElement()">Renomear</button>
+    <button onclick="removeElement()">Remover</button>
+  </div>
+
+  <textarea id="editor" oninput="updateOutput()">&lt;h1&gt;Hello, World!&lt;/h1&gt;</textarea>
+  <iframe id="output" onclick="selectOutput()"></iframe>
 
   <script>
     function updateOutput() {
@@ -56,33 +63,28 @@
       outputFrame.open();
       outputFrame.write(editorContent);
       outputFrame.close();
-
-      addSimulatedScreenInteractions();
     }
 
-    function addSimulatedScreenInteractions() {
-      const simulatedScreen = document.querySelector('#output');
-      simulatedScreen.addEventListener('contextmenu', function (event) {
-        event.preventDefault();
+    function renameElement() {
+      alert("Função de renomear ainda não implementada");
+    }
 
-        const text = window.getSelection().toString();
-        if (text !== '') {
-          const choice = window.confirm(`Selected Text: "${text}"\nChoose an action:`);
-          if (choice) {
-            const newName = prompt('Enter new name:');
-            if (newName) {
-              const editor = document.getElementById('editor');
-              editor.value = editor.value.replace(text, `<h1 id="${newName}">${text}</h1>`);
-              updateOutput();
-            }
-          } else {
-            const editor = document.getElementById('editor');
-            editor.value = editor.value.replace(text, '');
-            updateOutput();
-          }
-        }
-      });
+    function removeElement() {
+      const outputFrame = document.getElementById('output').contentDocument;
+      const selectedElement = outputFrame.getSelection().toString();
+      const editor = document.getElementById('editor');
+      editor.value = editor.value.replace(selectedElement, '');
+      updateOutput();
+    }
+
+    function selectOutput() {
+      const outputFrame = document.getElementById('output').contentWindow;
+      const selectedText = outputFrame.getSelection().toString();
+      const editor = document.getElementById('editor');
+      editor.value = editor.value.replace(selectedText, '');
+      updateOutput();
     }
   </script>
 </body>
+
 </html>
