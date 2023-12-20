@@ -1,110 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Code Tester</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-time HTML Editor</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
 
-        #code-container {
-            width: 80%;
-            margin: 20px auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    #editor,
+    #output {
+      flex: 1;
+      border: none;
+      resize: none;
+    }
 
-        textarea {
-            width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-        }
+    #editor {
+      background-color: #f4f4f4;
+      padding: 10px;
+      font-family: 'Courier New', Courier, monospace;
+      overflow-y: auto;
+    }
 
-        #start-btn {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
+    #output {
+      padding: 10px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
 
-        #start-btn:hover {
-            background-color: #45a049;
-        }
-
-        #device-screen {
-    width: 300px;
-    height: 500px;
-    background-color: #ddd;
-    border-radius: 15px;
-    margin: 20px auto;
-    position: relative;
-    overflow: hidden; /* Adicionando o estilo de overflow */
-}
-
-
-        #content {
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            padding: 20px;
-        }
-    </style>
+    @media screen and (max-width: 600px) {
+      #editor {
+        font-size: 14px; /* Adjust font size for smaller screens */
+      }
+    }
+  </style>
 </head>
-
 <body>
-    <div id="code-container">
-        <textarea id="css-code" rows="4" placeholder="CSS Code"></textarea>
-        <textarea id="html-code" rows="4" placeholder="HTML Code"></textarea>
-        <textarea id="js-code" rows="4" placeholder="JavaScript Code"></textarea>
+  <textarea id="editor" oninput="updateOutput()">&lt;h1&gt;Hello, World!&lt;/h1&gt;</textarea>
+  <iframe id="output"></iframe>
 
-        <button id="start-btn" onclick="runCode()">Start</button>
-
-        <div id="device-screen">
-            <div id="content"></div>
-        </div>
-    </div>
-
-    <div id="output-container"></div>
-
-    <script>
-        function runCode() {
-            const cssCode = document.getElementById('css-code').value;
-            const htmlCode = document.getElementById('html-code').value;
-            const jsCode = document.getElementById('js-code').value;
-
-            const outputContainer = document.getElementById('output-container');
-            outputContainer.innerHTML = '';
-
-            const styleTag = document.createElement('style');
-            styleTag.textContent = cssCode;
-            document.head.appendChild(styleTag);
-
-            const scriptTag = document.createElement('script');
-            scriptTag.textContent = jsCode;
-            document.body.appendChild(scriptTag);
-
-            document.getElementById('content').innerHTML = htmlCode;
-        }
-
-        window.addEventListener('resize', function () {
-            const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-            document.getElementById('device-screen').style.height = `${windowHeight - 250}px`;
-        });
-    </script>
+  <script>
+    function updateOutput() {
+      const editorContent = document.getElementById('editor').value;
+      const outputFrame = document.getElementById('output').contentDocument;
+      outputFrame.open();
+      outputFrame.write(editorContent);
+      outputFrame.close();
+    }
+  </script>
 </body>
-
 </html>
