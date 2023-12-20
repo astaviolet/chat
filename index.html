@@ -40,8 +40,8 @@
   </style>
 </head>
 <body>
-  <textarea id="editor" oninput="updateOutput()">&lt;h1&gt;Hello, World!&lt;/h1&gt;</textarea>
-  <iframe id="output"></iframe>
+  <textarea id="editor" oninput="updateOutput()">&lt;h1 id="title"&gt;Hello, World!&lt;/h1&gt;</textarea>
+  <iframe id="output" onclick="handleElementClick(event)"></iframe>
 
   <script>
     function updateOutput() {
@@ -50,6 +50,31 @@
       outputFrame.open();
       outputFrame.write(editorContent);
       outputFrame.close();
+    }
+
+    function handleElementClick(event) {
+      const clickedElement = event.target;
+
+      if (confirm("Do you want to remove or rename this element?")) {
+        const removeElement = confirm("Do you want to remove this element?");
+        if (removeElement) {
+          clickedElement.remove();
+        } else {
+          const newName = prompt("Enter the new name:");
+          if (newName !== null) {
+            clickedElement.textContent = newName;
+            const idAttribute = clickedElement.getAttribute("id");
+            if (idAttribute) {
+              const editorContent = document.getElementById('editor');
+              editorContent.value = editorContent.value.replace(
+                new RegExp(idAttribute, 'g'),
+                newName
+              );
+              updateOutput();
+            }
+          }
+        }
+      }
     }
   </script>
 </body>
