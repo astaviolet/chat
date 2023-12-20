@@ -30,6 +30,12 @@
       padding: 10px;
       box-sizing: border-box;
       overflow-y: auto;
+      position: relative;
+    }
+
+    .simulated-screen {
+      position: absolute;
+      cursor: pointer;
     }
 
     @media screen and (max-width: 600px) {
@@ -40,7 +46,7 @@
   </style>
 </head>
 <body>
-  <textarea id="editor" oninput="updateOutput()">&lt;h1&gt;Hello, World!&lt;/h1&gt;</textarea>
+  <textarea id="editor" oninput="updateOutput()">&lt;h1 id="title"&gt;Hello, World!&lt;/h1&gt;</textarea>
   <iframe id="output"></iframe>
 
   <script>
@@ -50,6 +56,32 @@
       outputFrame.open();
       outputFrame.write(editorContent);
       outputFrame.close();
+
+      addSimulatedScreenInteractions();
+    }
+
+    function addSimulatedScreenInteractions() {
+      const simulatedScreen = document.querySelector('.simulated-screen');
+      simulatedScreen.addEventListener('contextmenu', function (event) {
+        event.preventDefault();
+
+        const text = window.getSelection().toString();
+        if (text !== '') {
+          const choice = window.confirm(`Selected Text: "${text}"\nChoose an action:`);
+          if (choice) {
+            const newName = prompt('Enter new name:');
+            if (newName) {
+              const editor = document.getElementById('editor');
+              editor.value = editor.value.replace(text, `<h1 id="${newName}">${text}</h1>`);
+              updateOutput();
+            }
+          } else {
+            const editor = document.getElementById('editor');
+            editor.value = editor.value.replace(text, '');
+            updateOutput();
+          }
+        }
+      });
     }
   </script>
 </body>
