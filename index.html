@@ -66,7 +66,15 @@
     }
 
     function renameElement() {
-      alert("Função de renomear ainda não implementada");
+      const outputFrame = document.getElementById('output').contentDocument;
+      const selectedElement = outputFrame.getSelection().toString();
+      const newElementName = prompt("Digite o novo nome:", selectedElement);
+
+      if (newElementName !== null) {
+        const editor = document.getElementById('editor');
+        editor.value = editor.value.replace(selectedElement, newElementName);
+        updateOutput();
+      }
     }
 
     function removeElement() {
